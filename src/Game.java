@@ -9,11 +9,12 @@ import javax.swing.*;
 
 public class Game extends Canvas implements ActionListener, KeyListener {
     private final int FATNESS = 15; // size in pixels^2
-    private final int INITIAL_LENGTH = 15;
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    private final int INITIAL_LENGTH = 3;
+    private static final int WIDTH = 400;
+    private static final int HEIGHT = 400;
     private Snake s = new Snake(INITIAL_LENGTH, FATNESS);
     private int[] apple;
+    private int score = 0;
 
     private Game(){
         this.addKeyListener(this);
@@ -47,6 +48,11 @@ public class Game extends Canvas implements ActionListener, KeyListener {
         g.fillRect(apple[0], apple[1], s.FATNESS, s.FATNESS);
 
         s.move_forward();
+        if(s.check_collision(apple)){
+            score++;
+            apple = generate_apple();
+            s.increase_size();
+        }
     }
 
     private int[] generate_apple(){

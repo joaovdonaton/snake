@@ -5,6 +5,7 @@ class Snake {
     List<int[]> parts = new ArrayList<>();
     int FATNESS;
     char FACING = 'S';
+    private static int[] previous_tail;
 
     Snake(int length, int fatness){
         FATNESS = fatness;
@@ -14,6 +15,7 @@ class Snake {
     }
 
     void move_forward(){
+        previous_tail = parts.get(0);
         parts.remove(0); //remove the tail
 
         //append head based on the direction that the snake's facing
@@ -40,5 +42,14 @@ class Snake {
                 System.exit(0);
             }
         }
+    }
+
+    boolean check_collision(int[] apple){
+        int[] head_pos = parts.get(parts.size()-1);
+        return apple[0] == head_pos[0] && apple[1] == head_pos[1];
+    }
+
+    void increase_size(){
+        parts.add(0, previous_tail);
     }
 }
