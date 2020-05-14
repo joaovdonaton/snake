@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class Game extends Canvas implements ActionListener, KeyListener {
     private final int FATNESS = 15; // size in pixels^2
-    private final int INITIAL_LENGTH = 5;
+    private final int INITIAL_LENGTH = 15;
     private Snake s = new Snake(INITIAL_LENGTH, FATNESS);
 
     private Game(){
@@ -30,10 +30,14 @@ public class Game extends Canvas implements ActionListener, KeyListener {
 
     public void paint(Graphics g) {
         g.setColor(Color.green);
-        for(int[] i: s.parts){
+        for (int[] i : s.parts) {
             g.fillRect(i[0], i[1], s.FATNESS, s.FATNESS);
         }
-        s.move_forward(); //move forward on every render (direction is based on Snake.FACING)
+        /*if (!s.move_forward()) { //move forward on every render (direction is based on Snake.FACING)
+            System.out.println("Game Over");
+            System.exit(1);
+        }*/
+        s.move_forward();
     }
 
     @Override

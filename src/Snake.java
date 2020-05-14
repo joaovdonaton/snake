@@ -14,7 +14,6 @@ class Snake {
     }
 
     void move_forward(){
-
         parts.remove(0); //remove the tail
 
         //append head based on the direction that the snake's facing
@@ -32,6 +31,14 @@ class Snake {
             case 'W': //left
                 parts.add(new int[]{head_pos[0]-FATNESS, head_pos[1]});
                 break;
+        }
+
+        head_pos = parts.get(parts.size()-1);
+        for(int i = 0; i < parts.size()-2; i++){
+            if(parts.get(i)[0] == head_pos[0] && parts.get(i)[1] == head_pos[1]){
+                System.out.println("Game Over");
+                System.exit(0);
+            }
         }
     }
 }
