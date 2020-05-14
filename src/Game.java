@@ -3,18 +3,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.*;
 
 public class Game extends Canvas implements ActionListener, KeyListener {
     private final int FATNESS = 15; // size in pixels^2
     private final int INITIAL_LENGTH = 15;
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 600;
     private Snake s = new Snake(INITIAL_LENGTH, FATNESS);
+    private int[] apple;
 
     private Game(){
         this.addKeyListener(this);
         Timer timer = new Timer(100, this);
         timer.setRepeats(true);
         timer.start();
+
+        apple = generate_apple();
     }
 
     public static void main(String[] args) {
@@ -22,22 +29,37 @@ public class Game extends Canvas implements ActionListener, KeyListener {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         Canvas canvas = new Game();
         canvas.setBackground(Color.BLACK);
-        canvas.setSize(800, 600);
+        canvas.setSize(WIDTH, HEIGHT);
         frame.add(canvas);
         frame.pack();
         frame.setVisible(true);
     }
 
     public void paint(Graphics g) {
+        //draw snake
         g.setColor(Color.green);
         for (int[] i : s.parts) {
             g.fillRect(i[0], i[1], s.FATNESS, s.FATNESS);
         }
-        /*if (!s.move_forward()) { //move forward on every render (direction is based on Snake.FACING)
-            System.out.println("Game Over");
-            System.exit(1);
-        }*/
+
+        //draw apple
+        g.setColor(Color.red);
+        g.fillRect(apple[0], apple[1], s.FATNESS, s.FATNESS);
+
         s.move_forward();
+    }
+
+    private int[] generate_apple(){
+        Random rand = new Random();
+        java.util.List<int[]> available_pos = new ArrayList<>();
+        for(int i = 0; i < Math.floor(WIDTH/FATNESS); i++){
+            for(int j = 0; j < Math.floor(HEIGHT/FATNESS); j++){
+                available_pos.add(new int[]{FATNESS*i, FATNESS*j});
+            }
+        }
+
+        return new int[]{available_pos.get(rand.nextInt(available_pos.size()))[0],
+                available_pos.get(rand.nextInt(available_pos.size()))[1]};
     }
 
     @Override
