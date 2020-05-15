@@ -10,7 +10,7 @@ class Snake {
     Snake(int length, int fatness){
         FATNESS = fatness;
         for(int i = 0; i < length; i++){
-            parts.add(new int[]{fatness*i, 0});
+            parts.add(new int[]{fatness*i, fatness*i*3});
         }
     }
 
@@ -47,6 +47,16 @@ class Snake {
     boolean check_collision(int[] apple){
         int[] head_pos = parts.get(parts.size()-1);
         return apple[0] == head_pos[0] && apple[1] == head_pos[1];
+    }
+
+    boolean check_collision(List<int[]> border){
+        int[] head_pos = parts.get(parts.size()-1);
+        for(int i = 0; i < border.size()-1; i++){
+            if(head_pos[0] == border.get(i)[0] && head_pos[1] == border.get(i)[1]){
+                return true;
+            }
+        }
+        return false;
     }
 
     void increase_size(){

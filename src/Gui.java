@@ -5,7 +5,7 @@ class Gui extends JPanel {
     private JLabel score;
     Gui(){
         this.setLayout(new FlowLayout());
-        score = new JLabel("Score: " + "");
+        score = new JLabel("Score: 0");
         score.setFont(new Font("Arial", Font.PLAIN, 25));
         score.setForeground(Color.green);
 
