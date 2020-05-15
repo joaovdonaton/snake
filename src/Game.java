@@ -9,12 +9,13 @@ import javax.swing.*;
 
 public class Game extends Canvas implements ActionListener, KeyListener {
     private final int FATNESS = 15; // size in pixels^2
-    private final int INITIAL_LENGTH = 3;
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = 400;
+    private final int INITIAL_LENGTH = 4;
+    static final int WIDTH = 800;
+    static final int HEIGHT = 600;
     private Snake s = new Snake(INITIAL_LENGTH, FATNESS);
     private int[] apple;
     private int score = 0;
+    private static Gui gui;
 
     private Game(){
         this.addKeyListener(this);
@@ -31,6 +32,8 @@ public class Game extends Canvas implements ActionListener, KeyListener {
         Canvas canvas = new Game();
         canvas.setBackground(Color.BLACK);
         canvas.setSize(WIDTH, HEIGHT);
+        gui = new Gui();
+        frame.add(gui);
         frame.add(canvas);
         frame.pack();
         frame.setVisible(true);
@@ -52,6 +55,7 @@ public class Game extends Canvas implements ActionListener, KeyListener {
             score++;
             apple = generate_apple();
             s.increase_size();
+            gui.update_score(score);
         }
     }
 
@@ -59,7 +63,8 @@ public class Game extends Canvas implements ActionListener, KeyListener {
         Random rand = new Random();
         java.util.List<int[]> available_pos = new ArrayList<>();
         for(int i = 0; i < Math.floor(WIDTH/FATNESS); i++){
-            for(int j = 0; j < Math.floor(HEIGHT/FATNESS); j++){
+            for(int j = (int) (Math.floor(HEIGHT*0.15)/FATNESS); //idk either
+                j < Math.floor(HEIGHT/FATNESS); j++){
                 available_pos.add(new int[]{FATNESS*i, FATNESS*j});
             }
         }
